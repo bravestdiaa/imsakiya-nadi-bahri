@@ -4,7 +4,7 @@
 var CFG={
   ramadanDays:29,           // يُعدَّل إلى 30 إذا أكمل الشهر ثلاثين يومًا وفق إعلان دار الإفتاء المصرية
   hijriYear:"1448", gregYear:"2027",
-  assets:{ logo:"./logo.png", callig:null, clubCallig:null } // تُستبدل بملفات الهوية الرسمية
+  assets:{ logo:"./logo.png", logoSmall:"./assets/logo-256.png", callig:"./assets/kol-am-gold.png", clubCallig:"./assets/club-callig-gold.png", clubCalligWhite:"./assets/club-callig-white.png", ramadan:"./assets/ramadan-mubarak-gold.png" } // ملفات الهوية الرسمية للنادي
 };
 if(window.ASSETS) Object.assign(CFG.assets,window.ASSETS);
 var GREETING="يتقدم النادي البحري للنيابة الإدارية بخالص التهاني وأطيب الأمنيات بمناسبة حلول شهر رمضان المبارك";
@@ -90,15 +90,15 @@ function idxForContent(i){return (i-1)%30}
 function home(){
   var s=state(), visited=LS.get("visited",false), url=location.origin+"/";
   var compact=visited&&s.phase==="ramadan";
-  var hero='<section class="hero'+(compact?" compact":"")+'"><div class="emblem"><img src="'+CFG.assets.logo+'" alt="شعار النادي البحري للنيابة الإدارية"></div>'+
-   (CFG.assets.clubCallig?'<img class="callig callig-club" src="'+CFG.assets.clubCallig+'" alt="النادي البحري للنيابة الإدارية" style="max-width:70%">':'<p class="club">النادي البحري للنيابة الإدارية</p>');
+  var hero='<section class="hero'+(compact?" compact":"")+'"><div class="emblem"><img src="'+CFG.assets.logoSmall+'" width="256" height="256" alt="شعار النادي البحري للنيابة الإدارية"></div>'+
+   (CFG.assets.clubCallig?'<img class="callig callig-club" src="'+CFG.assets.clubCallig+'" width="800" height="174" alt="النادي البحري للنيابة الإدارية">':'<p class="club">النادي البحري للنيابة الإدارية</p>');
   if(s.phase==="eid"||s.phase==="after"){
     hero+='<h1 class="ramadan">'+(s.phase==="eid"?"عيد فطر مبارك":"تقبّل الله منا ومنكم")+'</h1><div class="years">١٤٤٨ هـ <span class="lantern"></span> ٢٠٢٧ م</div>'+
       '<p class="greet">'+(s.phase==="eid"?"يتقدم النادي البحري للنيابة الإدارية إلى <span class=\"to\">السادة أعضاء النيابة الإدارية</span> وأسرهم الكريمة بأطيب التهاني بمناسبة عيد الفطر المبارك، أعاده الله علينا وعليكم بالخير واليمن والبركات.":"ودّعنا شهر رمضان المبارك، سائلين الله أن يتقبّل الصيام والقيام، وأن يعيده على <span class=\"to\">السادة أعضاء النيابة الإدارية</span> وأسرهم بالخير واليمن والبركات.")+'</p></section>';
     return hero+'<div class="btns"><a class="btn gold block" href="#/card">بطاقة تهنئة باسمك</a><a class="btn ghost block" style="color:#fff;border-color:#fff" href="#/month">عرض إمساكية الشهر</a></div>'+shareBlock("كل عام وأنتم بخير — تهنئة النادي البحري للنيابة الإدارية بعيد الفطر المبارك",url)+foot();
   }
-  hero+=(CFG.assets.callig?'<img class="callig" src="'+CFG.assets.callig+'" alt="كل عام وأنتم بخير">':'')+'<h1 class="ramadan">رمضان كريم</h1><div class="years">١٤٤٨ هـ <span class="lantern"></span> ٢٠٢٧ م</div>'+
-   '<p class="greet">'+GREETING+'<br>إلى <span class="to">السادة أعضاء النيابة الإدارية</span> وأسرهم الكريمة</p></section>';
+  hero+='<h1 class="ramadan-img"><img src="'+CFG.assets.ramadan+'" width="1000" height="257" alt="شهر رمضان المبارك"></h1><div class="ribbon" aria-hidden="true"></div><div class="years">١٤٤٨ هـ <span class="lantern"></span> ٢٠٢٧ م</div>'+
+   '<p class="greet">'+GREETING+'<br>إلى <span class="to">السادة أعضاء النيابة الإدارية</span> وأسرهم الكريمة</p><img class="callig kolam" src="'+CFG.assets.callig+'" width="900" height="229" alt="كل عام وأنتم بخير"></section>';
   var h=hero;
   if(s.phase==="before"){
     h+=clock("cd",s.label,'<p class="muted" style="color:#c9d6e6">أول أيام الصيام المتوقع: '+gdate(day(1).date)+' (فلكيًّا، ويُعتمد ما تعلنه دار الإفتاء المصرية)</p>');
@@ -223,8 +223,8 @@ var imgCache={};
 function loadImg(src){if(!src)return Promise.resolve(null);if(imgCache[src])return imgCache[src];imgCache[src]=new Promise(function(res){var im=new Image();im.onload=function(){res(im)};im.onerror=function(){res(null)};im.src=src});return imgCache[src]}
 function drawCard(){
   var cv=$("#cv");if(!cv)return Promise.resolve();var x=cv.getContext("2d"),W=1080,H=1350,name=($("#nm").value||"").trim(),eid=["eid","after"].indexOf(state().phase)>=0;
-  return Promise.all([document.fonts?document.fonts.load("700 60px Messiri"):0,document.fonts?document.fonts.load("400 40px Naskh"):0,document.fonts?document.fonts.load("700 40px Cairo"):0,loadImg(CFG.assets.logo),loadImg(CFG.assets.callig)]).then(function(r){
-    var logo=r[3],cal=r[4];
+  return Promise.all([document.fonts?document.fonts.load("700 60px Messiri"):0,document.fonts?document.fonts.load("400 40px Naskh"):0,document.fonts?document.fonts.load("700 40px Cairo"):0,loadImg(CFG.assets.logo),loadImg(CFG.assets.callig),loadImg(CFG.assets.clubCalligWhite),loadImg(CFG.assets.ramadan)]).then(function(r){
+    var logo=r[3],cal=r[4],club=r[5],ram=r[6];
     var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#071a33");g.addColorStop(.6,"#0b2545");g.addColorStop(1,"#1d4e7e");x.fillStyle=g;x.fillRect(0,0,W,H);
     for(var i=0;i<90;i++){x.fillStyle="rgba(255,255,255,"+(0.3+Math.random()*0.6)+")";x.beginPath();x.arc(Math.random()*W,Math.random()*H*0.6,Math.random()*2.2,0,7);x.fill()}
     x.strokeStyle="#d4a537";x.lineWidth=6;x.strokeRect(36,36,W-72,H-72);x.lineWidth=2;x.strokeRect(54,54,W-108,H-108);
@@ -233,15 +233,16 @@ function drawCard(){
     x.fillStyle="rgba(11,37,69,.6)";x.beginPath();x.moveTo(0,H-110);for(var v=0;v<=W;v+=120)x.quadraticCurveTo(v+60,H-140,v+120,H-110);x.lineTo(W,H);x.lineTo(0,H);x.fill();
     if(logo){x.save();x.beginPath();x.arc(W/2,230,120,0,7);x.fillStyle="#fff";x.fill();x.clip();var sc=Math.min(220/logo.width,220/logo.height);x.drawImage(logo,W/2-logo.width*sc/2,230-logo.height*sc/2,logo.width*sc,logo.height*sc);x.restore();x.strokeStyle="#d4a537";x.lineWidth=6;x.beginPath();x.arc(W/2,230,124,0,7);x.stroke()}
     x.direction="rtl";x.textAlign="center";
-    x.fillStyle="#f3d58a";x.font="700 50px Messiri, Cairo";x.fillText("النادي البحري للنيابة الإدارية",W/2,420);
-    x.fillStyle="#fff";x.font="400 36px Naskh, serif";x.fillText(eid?"يتقدم بأطيب التهاني بمناسبة عيد الفطر المبارك":"يتقدم بخالص التهاني وأطيب الأمنيات",W/2,490);if(!eid)x.fillText("بمناسبة حلول شهر رمضان المبارك",W/2,545);
-    x.font="400 34px Cairo";x.fillStyle="#c9d6e6";x.fillText("إلى",W/2,620);
-    x.fillStyle="#f3d58a";x.font="700 "+(name.length>22?50:62)+"px Messiri, Cairo";x.fillText(name||"السادة أعضاء النيابة الإدارية",W/2,700);
-    if(cal){var cw=760,ch=cal.height*cw/cal.width;x.drawImage(cal,W/2-cw/2,750,cw,Math.min(ch,260))}
+    if(club){var kw=640,kh=club.height*kw/club.width;x.drawImage(club,W/2-kw/2,368,kw,kh)}else{x.fillStyle="#f3d58a";x.font="700 50px Messiri, Cairo";x.fillText("النادي البحري للنيابة الإدارية",W/2,420)}
+    x.fillStyle="#fff";x.font="400 36px Naskh, serif";x.fillText(eid?"يتقدم بأطيب التهاني بمناسبة عيد الفطر المبارك":"يتقدم بخالص التهاني وأطيب الأمنيات",W/2,560);if(!eid)x.fillText("بمناسبة حلول شهر رمضان المبارك",W/2,612);
+    x.font="400 34px Cairo";x.fillStyle="#c9d6e6";x.fillText("إلى",W/2,672);
+    x.fillStyle="#f3d58a";x.font="700 "+(name.length>22?50:62)+"px Messiri, Cairo";x.fillText(name||"السادة أعضاء النيابة الإدارية",W/2,748);
+    if(ram&&!eid){var rw=860,rh=ram.height*rw/ram.width;x.drawImage(ram,W/2-rw/2,785,rw,rh)}
     else{var gg=x.createLinearGradient(0,760,0,900);gg.addColorStop(0,"#ffffff");gg.addColorStop(1,"#f3d58a");x.fillStyle=gg;x.font="700 120px Messiri, Cairo";x.fillText(eid?"عيد مبارك":"رمضان كريم",W/2,880)}
-    x.fillStyle="#fff";x.font="400 38px Naskh, serif";x.fillText("كل عام وأنتم بخير",W/2,cal?1060:970);
-    x.font="400 32px Naskh, serif";x.fillStyle="#e7eef7";x.fillText("أعاده الله عليكم وعلى أسركم بالخير واليمن والبركات",W/2,cal?1115:1030);
-    x.fillStyle="#d4a537";x.font="700 34px Cairo";x.fillText("١٤٤٨ هـ  •  ٢٠٢٧ م  •  الإسكندرية",W/2,1175);
+    if(cal){var cw=620,ch=cal.height*cw/cal.width;x.drawImage(cal,W/2-cw/2,1012,cw,ch)}
+    else{x.fillStyle="#fff";x.font="400 38px Naskh, serif";x.fillText("كل عام وأنتم بخير",W/2,1040)}
+    x.font="400 30px Naskh, serif";x.fillStyle="#e7eef7";x.fillText("أعاده الله عليكم وعلى أسركم بالخير واليمن والبركات",W/2,1212);
+    x.fillStyle="#d4a537";x.font="700 34px Cairo";x.fillText("١٤٤٨ هـ  •  ٢٠٢٧ م  •  الإسكندرية",W/2,1262);
   });
 }
 function afterCard(){var nm=$("#nm");var deb;nm.oninput=function(){LS.set("name",nm.value);clearTimeout(deb);deb=setTimeout(drawCard,150)};drawCard();
