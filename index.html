@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>إمساكية رمضان 1448 — النادي البحري للنيابة الإدارية</title>
+<meta name="description" content="إمساكية رمضان 1448هـ / 2027م — تهنئة النادي البحري للنيابة الإدارية للسادة أعضاء النيابة الإدارية — الإسكندرية">
+<meta name="theme-color" content="#0b2545">
+<meta property="og:title" content="رمضان كريم — النادي البحري للنيابة الإدارية">
+<meta property="og:description" content="إمساكية رمضان 1448هـ ومواقيت الصلاة بالإسكندرية">
+<meta property="og:image" content="./icons/icon-512.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="إمساكية النادي">
+<link rel="preload" href="./fonts/cairo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="sky" aria-hidden="true"><div class="stars"></div><div class="moon"></div><svg class="waves" viewBox="0 0 1440 160" preserveAspectRatio="none"><path class="w1" d="M0 90c120-30 240-30 360 0s240 30 360 0 240-30 360 0 240 30 360 0v70H0z"/><path class="w2" d="M0 110c120-25 240-25 360 0s240 25 360 0 240-25 360 0 240 25 360 0v50H0z"/></svg></div>
+<header class="topbar">
+  <a href="#/" class="brand" aria-label="الرئيسية"><img src="./logo.png" onerror="this.onerror=null;this.src='/logo.svg'" alt="شعار النادي البحري للنيابة الإدارية" width="40" height="40"><span>إمساكية النادي البحري</span></a>
+  <div class="tools"><button id="fontDown" aria-label="تصغير الخط">أ−</button><button id="fontUp" aria-label="تكبير الخط">أ+</button></div>
+</header>
+<main id="app" tabindex="-1"></main>
+<nav class="tabbar" aria-label="التنقل الرئيسي">
+  <a href="#/" data-tab="home"><span>☾</span>الرئيسية</a>
+  <a href="#/today" data-tab="day"><span>◷</span>اليوم</a>
+  <a href="#/month" data-tab="month"><span>▦</span>الشهر</a>
+  <a href="#/zad" data-tab="zad"><span>✦</span>زاد رمضان</a>
+  <a href="#/card" data-tab="card"><span>✉</span>التهنئة</a>
+</nav>
+<div id="sheet" class="sheet" hidden></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
